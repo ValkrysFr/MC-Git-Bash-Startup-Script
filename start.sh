@@ -103,17 +103,15 @@ fi
 #------------------
 # Deobfuscation
 #------------------
-if [[ $DEOBFUSCATE == 1 ]]; then
-	echo "Starting to deobfuscate files..."
-	for i in $(find . -regextype posix-basic -regex '.*/.\{1,13\}.\(yml\|txt\|menu\|properties\|key\|conf\|php\)');
+echo "Starting to deobfuscate files..."
+for i in $(find . -regextype posix-basic -regex '.*/.\{1,13\}.\(yml\|txt\|menu\|properties\|key\|conf\|php\)');
+do
+	for key in "${!secret_key[@]}"
 	do
-		for key in "${!secret_key[@]}"
-		do
-		  sed -i "s|$key|${secret_key[$key]}|g" $i
-		done
+	  sed -i "s|$key|${secret_key[$key]}|g" $i
 	done
-	echo "Deobfuscation complete."
-fi
+done
+echo "Deobfuscation complete."
 
 #------------------
 # Reset end dimension
