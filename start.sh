@@ -3,7 +3,7 @@
 cd /home/container
 
 # Declare variables
-source ./secret.key # set secrets value
+source ./key.secret # set secrets value
 
 ENDER_RESET_TIME='0'
 SERVER_MEMORY=1024
