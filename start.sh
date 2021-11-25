@@ -109,7 +109,7 @@ for i in $(find . -regextype posix-basic -regex '.*/.\{1,13\}.\(yml\|txt\|menu\|
 do
 	for key in "${!secret_key[@]}"
 	do
-	  sed -i "s|$key|${secret_key[$key]}|g" $i
+	  sed -i "s|\$$key|${secret_key[$key]}|g" $i
 	done
 done
 echo "Deobfuscation complete."
