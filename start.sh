@@ -2,7 +2,7 @@
 # Obfuscation script to pull from Github and replace $variables
 
 # Declare variables
-source ./secret.key # set secrets value
+source /home/container/script/secret.key # set secrets value
 
 ENDER_RESET_TIME='0'
 SERVER_MEMORY=1024
