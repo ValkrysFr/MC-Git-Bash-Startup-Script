@@ -132,7 +132,7 @@ fi
 #------------------
 # Java arguments
 #------------------
-if [[$SERVER_MEMORY < 12000]]; then
+if (($SERVER_MEMORY < 12000)); then
   G1NewSizePercent=30
   G1MaxNewSizePercent=40
   G1HeapRegionSize=8
