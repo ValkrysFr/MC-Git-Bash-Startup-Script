@@ -5,7 +5,6 @@ cd /home/container
 # Declare variables
 source ./key.secret # set secrets value
 
-ENDER_RESET_TIME='0'
 SERVER_MEMORY=1024
 JAR_FILE='server.jar'
 GIT_UPDATE=1
@@ -28,16 +27,6 @@ do
       echo "gu  | --git-update      Need to pull repo at startup ?"
       echo
       exit 1
-      ;;
-
-    -e|--ender)
-      if [[ "$#" -gt 1 && ! "$2" = \-* ]]; then
-        ENDER_RESET_TIME=$2
-        shift
-      else
-        echo "Error in -e|--ender syntax. Script failed."
-        exit 1
-      fi
       ;;
 
     -sm|--server-memory)
@@ -115,33 +104,17 @@ done
 echo "Deobfuscation complete."
 
 #------------------
-# Reset end dimension
-#------------------
-if [[ $ENDER_RESET_TIME > 0 && $(find . -name '*_the_end') ]]; then
-	ENDER_WORLD=$(find . -type d -name "*_the_end" | wc -l)
-	ENDER_REGION_DIR=$ENDER_WORLD/DIM1/region
-	if [[ $(date +%u) = $ENDER_RESET_TIME ]]; then
-	  echo "Time to reset end dimension."
-	  rm $ENDER_WORLD/level.dat $ENDER_REGION_DIR/r.0.0.mca $ENDER_REGION_DIR/r.0.-1.mca $ENDER_REGION_DIR/r.-1.0.mca $ENDER_REGION_DIR/r.-1.-1.mca
-	else
-	  echo "Not time to reset end dimension."
-	fi
-fi
-
-#------------------
 # Java arguments
 #------------------
 if (($SERVER_MEMORY < 12000)); then
   G1NewSizePercent=30
   G1MaxNewSizePercent=40
   G1HeapRegionSize=8
-  G1ReservePercent=20
   InitiatingHeapOccupancyPercent=15
 else
   G1NewSizePercent=40
   G1MaxNewSizePercent=50
   G1HeapRegionSize=16
-  G1ReservePercent=15
   InitiatingHeapOccupancyPercent=20
 fi
 
@@ -149,4 +122,4 @@ fi
 # Java startup
 #------------------
 echo "Starting server..."
-java -Xms${SERVER_MEMORY}M -Xmx${SERVER_MEMORY}M -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=${G1NewSizePercent} -XX:G1MaxNewSizePercent=${G1MaxNewSizePercent} -XX:G1HeapRegionSize=${G1HeapRegionSize}M -XX:G1ReservePercent=${G1ReservePercent} -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=${InitiatingHeapOccupancyPercent} -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true -Dterminal.jline=false -Dterminal.ansi=true -Dfile.encoding=UTF-8 -Dcom.mojang.eula.agree=true -jar $JAR_FILE nogui
+java -Xms${SERVER_MEMORY}M -Xmx${SERVER_MEMORY}M -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=${G1NewSizePercent} -XX:G1MaxNewSizePercent=${G1MaxNewSizePercent} -XX:G1HeapRegionSize=${G1HeapRegionSize}M -XX:InitiatingHeapOccupancyPercent=${InitiatingHeapOccupancyPercent} -XX:TargetSurvivorRatio=90 -Dusing.aikars.suggestion=http://emc.gs/W --illegal-access=permit -jar $JAR_FILE nogui
