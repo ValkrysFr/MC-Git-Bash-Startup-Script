@@ -105,7 +105,7 @@ fi
 # Deobfuscation
 #------------------
 echo "Starting to deobfuscate files..."
-for i in $(find . -regextype posix-basic -regex '.*/.\{1,13\}.\(yml\|txt\|menu\|properties\|conf\|php\|json\)');
+for i in $(find . -regextype posix-basic -regex '.*/.\{1,13\}.\(yml\|txt\|menu\|properties\|conf\|json\)');
 do
 	for key in "${!secret_key[@]}"
 	do
