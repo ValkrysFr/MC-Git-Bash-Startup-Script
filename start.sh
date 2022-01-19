@@ -117,11 +117,11 @@ echo "Deobfuscation complete."
 #------------------
 # Reset end dimension
 #------------------
-if [[ $ENDER_RESET_TIME > 0 && $(find . -name '*_the_end') ]]; then
-	ENDER_WORLD=$(find . -type d -name "*_the_end" | wc -l)
-	ENDER_REGION_DIR=$ENDER_WORLD/DIM1/region
+if [[ $ENDER_RESET_TIME > 0 && $(find . -maxdepth 1 -type d -name '*_the_end') ]]; then
 	if [[ $(date +%u) = $ENDER_RESET_TIME ]]; then
 	  echo "Time to reset end dimension."
+	  ENDER_WORLD=$(find . -maxdepth 1 -type d -name '*_the_end')
+	  ENDER_REGION_DIR=$ENDER_WORLD/DIM1/region
 	  rm $ENDER_WORLD/level.dat $ENDER_REGION_DIR/r.0.0.mca $ENDER_REGION_DIR/r.0.-1.mca $ENDER_REGION_DIR/r.-1.0.mca $ENDER_REGION_DIR/r.-1.-1.mca
 	else
 	  echo "Not time to reset end dimension."
