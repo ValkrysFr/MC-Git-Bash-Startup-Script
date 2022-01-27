@@ -122,7 +122,7 @@ if [[ $ENDER_RESET_TIME > 0 && $(find . -maxdepth 1 -type d -name '*_the_end') ]
 	  echo "Time to reset end dimension."
 	  ENDER_WORLD=$(find . -maxdepth 1 -type d -name '*_the_end')
 	  ENDER_REGION_DIR=$ENDER_WORLD/DIM1/region
-	  rm $ENDER_WORLD/level.dat $ENDER_REGION_DIR/r.0.0.mca $ENDER_REGION_DIR/r.0.-1.mca $ENDER_REGION_DIR/r.-1.0.mca $ENDER_REGION_DIR/r.-1.-1.mca
+	  rm $ENDER_WORLD/level.dat $ENDER_WORLD/session.lock $ENDER_REGION_DIR/r.0.0.mca $ENDER_REGION_DIR/r.0.-1.mca $ENDER_REGION_DIR/r.-1.0.mca $ENDER_REGION_DIR/r.-1.-1.mca
 	else
 	  echo "Not time to reset end dimension."
 	fi
